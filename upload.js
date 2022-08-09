@@ -2,9 +2,9 @@ const axios = require('axios')
 const {v4: uuidv4} = require('uuid')
 const fs = require('fs')
 
-const API_KEY = 'panda-d97d5c544c45ab15e22889a742614cd958b32a9e6f9f6e2a39cddc0067b2da5f'
+const API_KEY = 'API_KEY'
 const FOLDER_ID = null
-const FILENAME = 'NOME DO VIDEO 2'
+const FILENAME = 'VIDEO NAME'
 const VIDEO_ID = uuidv4()
 
 
