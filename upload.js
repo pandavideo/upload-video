@@ -14,6 +14,8 @@ const uploadVideo = async (filename) => {
   
   const binaryFile = fs.readFileSync(filename)
 
+  // You must set each part of the metadata converted to base64 individually
+  // Make sure you follow this step correctly
   let metadata = `authorization ${parseToBase64(API_KEY)}`
   if(FOLDER_ID){
     metadata += `, folder_id ${parseToBase64(FOLDER_ID)}`
@@ -26,10 +28,12 @@ const uploadVideo = async (filename) => {
       headers:{
         'Authorization': API_KEY,
       }
-    })
-    const allHosts = Object.values(uploadServers.hosts).reduce((acc,curr)=>([...acc,...curr]),[])
-    const host = allHosts[Math.floor(Math.random() * allHosts.length)]
-    console.log(`Starting upload to ${host}`)
+    });
+    const allHosts = Object.values(uploadServers.hosts).reduce((acc,curr)=>([...acc,...curr]),[]);
+    const host = allHosts[Math.floor(Math.random() * allHosts.length)];
+    console.log(`Starting upload to ${host}`);
+
+    // The binary file must be in the body of the POST request
     await axios.post(`https://${host}.pandavideo.com.br/files`,Buffer.from(binaryFile, 'binary'),{
       headers:{
         'Tus-Resumable': '1.0.0', 
@@ -37,11 +41,11 @@ const uploadVideo = async (filename) => {
         'Content-Type': 'application/offset+octet-stream', 
         'Upload-Metadata': metadata
       }
-    })
-    console.log('Upload concluido com sucesso')
+    });
+    console.log('Upload concluido com sucesso');
   } catch (error) {
-    console.log('UPLOAD ERROR')
-    console.log(error)
+    console.log('UPLOAD ERROR');
+    console.log(error);
   }
 
 }
